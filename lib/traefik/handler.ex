@@ -16,17 +16,17 @@ defmodule Traefik.Handler do
     %{method: method, path: path, response: ""}
   end
 
-  def route(_conn) do
-    _conn = %{method: "GET", path: "/developers", response: "Hello Devs"}
+  def route(conn) do
+    %{conn | response: "Hello MakingDevs"}
   end
 
-  def format_response(_conn) do
+  def format_response(conn) do
     """
     HTTP/1.1 200 OK
     Content-Type: text/html
-    Content-Lenght: 14
+    Content-Lenght: #{String.length(conn.response)}
 
-    Hello Devs
+    #{conn.response}
     """
   end
 end
