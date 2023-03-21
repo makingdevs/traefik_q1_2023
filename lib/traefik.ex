@@ -1,18 +1,7 @@
 defmodule Traefik do
-  @moduledoc """
-  Documentation for `Traefik`.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Traefik.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def hello(name) do
+    "Hello, #{name}"
   end
 end
+
+# IO.inspect(Traefik.hello("MakingDevs World"))
