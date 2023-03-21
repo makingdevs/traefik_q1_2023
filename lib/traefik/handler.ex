@@ -6,15 +6,15 @@ defmodule Traefik.Handler do
     |> format_response()
   end
 
-  def parse(request) do
-    conn = %{method: "GET", path: "/developers", response: ""}
+  def parse(_request) do
+    _conn = %{method: "GET", path: "/developers", response: ""}
   end
 
-  def route(conn) do
-    conn = %{method: "GET", path: "/developers", response: "Hello Devs"}
+  def route(_conn) do
+    _conn = %{method: "GET", path: "/developers", response: "Hello Devs"}
   end
 
-  def format_response(conn) do
+  def format_response(_conn) do
     """
     HTTP/1.1 200 OK
     Content-Type: text/html
