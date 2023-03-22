@@ -60,3 +60,25 @@ Accept: */*
 
 response = Traefik.Handler.handle(request)
 IO.puts(response)
+
+request = """
+GET /developers/1 HTTP/1.1
+Host: makingdevs.com
+User-Agent: MyBrowser/0.1
+Accept: */*
+
+"""
+
+response = Traefik.Handler.handle(request)
+IO.puts(response)
+
+request = """
+GET /bugme HTTP/1.1
+Host: makingdevs.com
+User-Agent: MyBrowser/0.1
+Accept: */*
+
+"""
+
+response = Traefik.Handler.handle(request)
+IO.puts(response)
