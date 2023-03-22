@@ -21,21 +21,40 @@ defmodule Traefik.Handler do
   end
 
   def route(conn, "GET", "/developers") do
-    %{conn | response: "Hello MakingDevs"}
+    %{conn | status: 200, response: "Hello MakingDevs"}
+  end
+
+  def route(conn, "GET", "/developers/" <> id) do
+    %{conn | status: 200, response: "Hello developer #{id}"}
   end
 
   def route(conn, "GET", "/projects") do
-    %{conn | response: "Traefik, Agora, Domino"}
+    %{conn | status: 200, response: "Traefik, Agora, Domino"}
+  end
+
+  def route(conn, _, path) do
+    %{conn | status: 404, response: "No '#{path}' found"}
   end
 
   def format_response(conn) do
     """
-    HTTP/1.1 200 OK
+    HTTP/1.1 #{conn.status} #{code_status(conn.status)}
     Content-Type: text/html
     Content-Lenght: #{String.length(conn.response)}
 
     #{conn.response}
     """
+  end
+
+  defp code_status(code) do
+    %{
+      200 => "OK",
+      201 => "Created",
+      401 => "Unathorized",
+      403 => "Forbidden",
+      404 => "Not found",
+      500 => "Internal Server Error"
+    }[code]
   end
 end
 
