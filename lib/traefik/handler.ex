@@ -54,6 +54,23 @@ defmodule Traefik.Handler do
     %{conn | status: 200, response: "Traefik, Agora, Domino"}
   end
 
+  def route(conn, "GET", "/about") do
+    file_path =
+      Path.expand("../../pages", __DIR__)
+      |> Path.join("about.html")
+
+    case File.read(file_path) do
+      {:ok, content} ->
+        %{conn | status: 200, response: content}
+
+      {:error, :enoent} ->
+        %{conn | status: 404, response: "File not found!!!"}
+
+      {:error, reason} ->
+        %{conn | status: 500, response: "File error: #{reason}"}
+    end
+  end
+
   def route(conn, _, path) do
     %{conn | status: 404, response: "No '#{path}' found"}
   end
@@ -127,6 +144,17 @@ IO.puts(response)
 
 request = """
 GET /internal-projects HTTP/1.1
+Host: makingdevs.com
+User-Agent: MyBrowser/0.1
+Accept: */*
+
+"""
+
+response = Traefik.Handler.handle(request)
+IO.puts(response)
+
+request = """
+GET /about HTTP/1.1
 Host: makingdevs.com
 User-Agent: MyBrowser/0.1
 Accept: */*
