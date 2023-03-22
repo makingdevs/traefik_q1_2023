@@ -1,4 +1,11 @@
 defmodule Traefik.Handler do
+  @moduledoc """
+  Handles the request in Traefik WebServer in a simple way.
+  """
+
+  @pages_path Path.expand("../../pages", __DIR__)
+
+  @doc "Transforms the request into a response when it's used."
   def handle(request) do
     request
     |> parse()
@@ -55,7 +62,7 @@ defmodule Traefik.Handler do
   end
 
   def route(conn, "GET", "/about") do
-    Path.expand("../../pages", __DIR__)
+    @pages_path
     |> Path.join("about.html")
     |> File.read()
     |> handle_file(conn)
