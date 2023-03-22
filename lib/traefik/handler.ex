@@ -13,7 +13,7 @@ defmodule Traefik.Handler do
       |> List.first()
       |> String.split(" ")
 
-    %{method: method, path: path, response: ""}
+    %{method: method, path: path, response: "", status: nil}
   end
 
   def route(conn) do
