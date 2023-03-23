@@ -49,6 +49,10 @@ defmodule Traefik.Handler do
     |> handle_file(conn)
   end
 
+  def route(%Conn{} = conn, "POST", "/developers") do
+    %Conn{conn | status: 201, response: "Created developer"}
+  end
+
   # def route(conn, "GET", "/about") do
   #   file_path =
   #     Path.expand("../../pages", __DIR__)
@@ -154,6 +158,20 @@ Host: makingdevs.com
 User-Agent: MyBrowser/0.1
 Accept: */*
 
+"""
+
+response = Traefik.Handler.handle(request)
+IO.puts(response)
+
+request = """
+POST /developers HTTP/1.1
+Host: makingdevs.com
+User-Agent: MyBrowser/0.1
+Accept: */*
+Content-Type: application/x-www-form-urlencoded
+Content-Length:
+
+name=Juan&lastname=Reyes&nickname=neodevelop
 """
 
 response = Traefik.Handler.handle(request)
