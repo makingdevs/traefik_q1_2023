@@ -6,6 +6,6 @@ defmodule Traefik.Parser do
       |> List.first()
       |> String.split(" ")
 
-    %{method: method, path: path, response: "", status: nil}
+    %Traefik.Conn{method: method, path: path, response: "", status: nil}
   end
 end
