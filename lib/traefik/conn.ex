@@ -1,5 +1,5 @@
 defmodule Traefik.Conn do
-  defstruct method: "", path: "", status: nil, response: ""
+  defstruct method: "", path: "", status: nil, response: "", params: %{}
 
   def full_status(%__MODULE__{} = conn) do
     "#{conn.status} #{code_status(conn.status)}"
