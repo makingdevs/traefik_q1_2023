@@ -84,24 +84,12 @@ defmodule Traefik.Handler do
 
   def format_response(%Conn{} = conn) do
     """
-    HTTP/1.1 #{conn.status} #{code_status(conn.status)}
+    HTTP/1.1 #{Conn.full_status(conn)}
     Content-Type: text/html
     Content-Lenght: #{String.length(conn.response)}
 
     #{conn.response}
     """
-  end
-
-  defp code_status(code) do
-    %{
-      200 => "OK",
-      201 => "Created",
-      401 => "Unathorized",
-      403 => "Forbidden",
-      404 => "Not found",
-      500 => "Internal Server Error"
-    }
-    |> Map.get(code, "Not found")
   end
 end
 
