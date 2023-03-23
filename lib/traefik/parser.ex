@@ -8,7 +8,7 @@ defmodule Traefik.Parser do
 
     params = String.trim(params_string) |> URI.decode_query()
 
-    headers = parse_headers(headers_string, 0)
+    headers = parse_headers(headers_string, %{})
 
     %Traefik.Conn{
       method: method,
@@ -19,9 +19,11 @@ defmodule Traefik.Parser do
     }
   end
 
-  def parse_headers([], contador), do: contador
+  def parse_headers([], headers), do: headers
 
-  def parse_headers([_ | t], contador) do
-    parse_headers(t, contador + 1)
+  def parse_headers([header_string | rest], headers) do
+    [key_header, value_header] = String.split(header_string, ":")
+    headers = Map.put(headers, key_header, value_header)
+    parse_headers(rest, headers)
   end
 end
