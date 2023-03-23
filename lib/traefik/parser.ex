@@ -15,14 +15,15 @@ defmodule Traefik.Parser do
       path: path,
       response: "",
       status: nil,
-      params: params
+      params: params,
+      headers: headers
     }
   end
 
   def parse_headers([], headers), do: headers
 
   def parse_headers([header_string | rest], headers) do
-    [key_header, value_header] = String.split(header_string, ":")
+    [key_header, value_header] = String.split(header_string, ": ")
     headers = Map.put(headers, key_header, value_header)
     parse_headers(rest, headers)
   end
