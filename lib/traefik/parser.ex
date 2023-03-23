@@ -21,8 +21,7 @@ defmodule Traefik.Parser do
 
   def parse_headers([], contador), do: contador
 
-  def parse_headers(headers_string, contador) do
-    [_ | t] = headers_string
+  def parse_headers([_ | t], contador) do
     parse_headers(t, contador + 1)
   end
 end
