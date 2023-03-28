@@ -13,6 +13,7 @@ defmodule Traefik.DeveloperController do
   end
 
   def show(%Conn{} = conn, %{"id" => id} = _params) do
-    %{conn | status: 200, response: "ONE DEVELOPER"}
+    developer = Organization.get_developer(id)
+    %{conn | status: 200, response: "#{inspect(developer)}"}
   end
 end
