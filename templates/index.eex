@@ -1,0 +1,7 @@
+<h1>Making Devs Developers</h1>
+<h2> Welcome!! </h2>
+<ul>
+  <%= for d <- developers do %>
+    <li><%= d.id %> <%= d.first_name %> <%= d.last_name %> <%= d.gender %><li>
+  <% end %>
+</ul>

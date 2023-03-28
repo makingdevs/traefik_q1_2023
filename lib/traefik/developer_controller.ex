@@ -1,15 +1,16 @@
 defmodule Traefik.DeveloperController do
   alias Traefik.{Conn, Developer, Organization}
 
+  @template_path Path.expand("../../templates", __DIR__)
+
   def index(%Conn{} = conn, _params \\ %{}) do
-    response =
+    developers =
       Organization.list_developers()
       |> Enum.filter(&Developer.filter_male_female/1)
       |> Enum.sort(&Developer.sort_by_last_name/2)
       |> Enum.take(10)
-      |> Enum.map(&Developer.format_developer_item/1)
 
-    %Conn{conn | status: 200, response: "<ul>#{response}</ul>"}
+    render(conn, "index.eex", developers: developers)
   end
 
   def show(%Conn{} = conn, %{"id" => id} = _params) do
@@ -27,5 +28,14 @@ defmodule Traefik.DeveloperController do
     """
 
     %Conn{conn | status: 201, response: response}
+  end
+
+  def render(%Conn{} = conn, template, items \\ []) do
+    content =
+      @template_path
+      |> Path.join(template)
+      |> EEx.eval_file(items)
+
+    %Conn{conn | status: 200, response: content}
   end
 end
