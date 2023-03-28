@@ -41,6 +41,15 @@ defmodule Traefik.Handler do
     %Conn{conn | status: 200, response: "Traefik, Agora, Domino"}
   end
 
+  def route(%Conn{} = conn, "GET", "/makingdevs") do
+    Traefik.DeveloperController.index(conn)
+  end
+
+  def route(%Conn{} = conn, "GET", "/makingdevs/" <> id) do
+    params = conn.params |> Map.put("id", id)
+    Traefik.DeveloperController.show(conn, params)
+  end
+
   def route(%Conn{} = conn, "GET", "/about") do
     @pages_path
     |> Path.join("about.html")
