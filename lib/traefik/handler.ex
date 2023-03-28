@@ -10,8 +10,6 @@ defmodule Traefik.Handler do
 
   alias Traefik.Conn
 
-  # Comment
-
   @doc "Transforms the request into a response when it's used."
   def handle(request) do
     request
