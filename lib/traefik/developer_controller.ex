@@ -1,16 +1,19 @@
 defmodule Traefik.DeveloperController do
-  def index(conn) do
+  alias Traefik.Conn
+  alias Traefik.Developer
+
+  def index(%Conn{} = conn) do
     response =
       Traefik.Organization.list_developers()
-      |> Enum.filter(fn d -> d.gender != "Female" && d.gender != "Male" end)
-      |> Enum.sort(fn d1, d2 -> d1.last_name < d2.last_name end)
+      |> Enum.filter(&Developer.filter_male_female/1)
+      |> Enum.sort(&Developer.sort_by_last_name/2)
       |> Enum.take(10)
-      |> Enum.map(fn d -> "<li>#{d.id} #{d.first_name} #{d.last_name} #{d.gender}<li>\n" end)
+      |> Enum.map(&Developer.format_developer_item/1)
 
-    %{conn | status: 200, response: "<ul>#{response}</ul>"}
+    %Conn{conn | status: 200, response: "<ul>#{response}</ul>"}
   end
 
-  def show(conn, _params) do
+  def show(%Conn{} = conn, _params) do
     %{conn | status: 200, response: "ONE DEVELOPER"}
   end
 end

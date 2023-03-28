@@ -11,4 +11,16 @@ defmodule Traefik.Developer do
       ip_address: ip_address
     }
   end
+
+  def filter_male_female(developer) do
+    developer.gender != "Female" && developer.gender != "Male"
+  end
+
+  def sort_by_last_name(d1, d2) do
+    d1.last_name < d2.last_name
+  end
+
+  def format_developer_item(developer) do
+    "<li>#{developer.id} #{developer.first_name} #{developer.last_name} #{developer.gender}<li>\n"
+  end
 end
