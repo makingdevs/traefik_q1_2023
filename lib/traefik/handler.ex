@@ -58,12 +58,7 @@ defmodule Traefik.Handler do
   end
 
   def route(%Conn{} = conn, "POST", "/developers") do
-    response = """
-    Created dev:
-    #{conn.params["name"]} - #{conn.params["lastname"]} - #{conn.params["email"]}
-    """
-
-    %Conn{conn | status: 201, response: response}
+    Traefik.DeveloperController.create(conn, conn.params)
   end
 
   # def route(conn, "GET", "/about") do

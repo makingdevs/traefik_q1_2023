@@ -17,6 +17,15 @@ defmodule Traefik.DeveloperController do
       Organization.get_developer(id)
       |> Developer.format_developer_header()
 
-    %{conn | status: 200, response: response}
+    %Conn{conn | status: 200, response: response}
+  end
+
+  def create(%Conn{} = conn, params) do
+    response = """
+    Created dev:
+    #{params["name"]} - #{params["lastname"]} - #{params["email"]}
+    """
+
+    %Conn{conn | status: 201, response: response}
   end
 end
