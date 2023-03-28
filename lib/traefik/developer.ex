@@ -23,4 +23,7 @@ defmodule Traefik.Developer do
   def format_developer_item(%__MODULE__{} = developer) do
     "<li>#{developer.id} #{developer.first_name} #{developer.last_name} #{developer.gender}<li>\n"
   end
+
+  def extra_salary(%__MODULE__{gender: g}) when g != "Male" and g != "Female", do: true
+  def extra_salary(_), do: false
 end
