@@ -3,7 +3,7 @@ defmodule Traefik.Developer do
 
   def dev_from_list([id, first_name, last_name, email, gender, ip_address]) do
     %__MODULE__{
-      id: id,
+      id: String.to_integer(id),
       first_name: first_name,
       last_name: last_name,
       email: email,
