@@ -12,15 +12,15 @@ defmodule Traefik.Developer do
     }
   end
 
-  def filter_male_female(developer) do
-    developer.gender != "Female" && developer.gender != "Male"
+  def filter_male_female(%__MODULE__{gender: gender} = _developer) do
+    gender != "Female" && gender != "Male"
   end
 
-  def sort_by_last_name(d1, d2) do
-    d1.last_name < d2.last_name
+  def sort_by_last_name(%__MODULE__{last_name: ln1}, %__MODULE__{last_name: ln2}) do
+    ln1 < ln2
   end
 
-  def format_developer_item(developer) do
+  def format_developer_item(%__MODULE__{} = developer) do
     "<li>#{developer.id} #{developer.first_name} #{developer.last_name} #{developer.gender}<li>\n"
   end
 end
