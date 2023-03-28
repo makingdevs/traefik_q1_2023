@@ -180,3 +180,25 @@ name=Juan&lastname=Reyes&email=juan@makingdevs.com
 
 response = Traefik.Handler.handle(request)
 IO.puts(response)
+
+request = """
+GET /makingdevs HTTP/1.1
+Host: makingdevs.com
+User-Agent: MyBrowser/0.1
+Accept: */*
+
+"""
+
+response = Traefik.Handler.handle(request)
+IO.puts(response)
+
+request = """
+GET /makingdevs/3 HTTP/1.1
+Host: makingdevs.com
+User-Agent: MyBrowser/0.1
+Accept: */*
+
+"""
+
+response = Traefik.Handler.handle(request)
+IO.puts(response)
