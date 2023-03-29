@@ -6,7 +6,7 @@ defmodule Traefik.Parser do
 
     [method, path, _] = String.split(request_line, " ")
 
-    params = String.trim(params_string) |> URI.decode_query()
+    params = parse_params_string(params_string)
 
     headers = parse_headers(headers_string, %{})
 
@@ -19,6 +19,8 @@ defmodule Traefik.Parser do
       headers: headers
     }
   end
+
+  def parse_params_string(params_string), do: String.trim(params_string) |> URI.decode_query()
 
   def parse_headers([], headers), do: headers
 
