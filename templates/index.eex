@@ -1,7 +1,7 @@
 <h1>Making Devs Developers</h1>
 <h2> Welcome!! </h2>
 <ul>
-  <%= for d <- developers do %>
-    <li><%= d.id %> <%= d.first_name %> <%= d.last_name %> <%= d.gender %><li>
+  <%= for %{gender: "Polygender" = gender, id: id, first_name: first_name, last_name: last_name} <- developers do %>
+    <li><%= id %> <%= first_name %> <%= last_name %> <%= gender %><li>
   <% end %>
 </ul>
