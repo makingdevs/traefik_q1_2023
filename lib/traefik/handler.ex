@@ -15,7 +15,7 @@ defmodule Traefik.Handler do
     request
     |> parse()
     |> rewrite_path()
-    |> log()
+    # |> log()
     |> route()
     |> track()
     |> format_response()
@@ -100,105 +100,3 @@ defmodule Traefik.Handler do
     """
   end
 end
-
-request = """
-GET /developers HTTP/1.1
-Host: makingdevs.com
-User-Agent: MyBrowser/0.1
-Accept: */*
-
-"""
-
-response = Traefik.Handler.handle(request)
-IO.puts(response)
-
-request = """
-GET /projects HTTP/1.1
-Host: makingdevs.com
-User-Agent: MyBrowser/0.1
-Accept: */*
-
-"""
-
-response = Traefik.Handler.handle(request)
-IO.puts(response)
-
-request = """
-GET /developers/1 HTTP/1.1
-Host: makingdevs.com
-User-Agent: MyBrowser/0.1
-Accept: */*
-
-"""
-
-response = Traefik.Handler.handle(request)
-IO.puts(response)
-
-request = """
-GET /bugme HTTP/1.1
-Host: makingdevs.com
-User-Agent: MyBrowser/0.1
-Accept: */*
-
-"""
-
-response = Traefik.Handler.handle(request)
-IO.puts(response)
-
-request = """
-GET /internal-projects HTTP/1.1
-Host: makingdevs.com
-User-Agent: MyBrowser/0.1
-Accept: */*
-
-"""
-
-response = Traefik.Handler.handle(request)
-IO.puts(response)
-
-request = """
-GET /about HTTP/1.1
-Host: makingdevs.com
-User-Agent: MyBrowser/0.1
-Accept: */*
-
-"""
-
-response = Traefik.Handler.handle(request)
-IO.puts(response)
-
-request = """
-POST /developers HTTP/1.1
-Host: makingdevs.com
-User-Agent: MyBrowser/0.1
-Accept: */*
-Content-Type: application/x-www-form-urlencoded
-Content-Length: 44
-
-name=Juan&lastname=Reyes&email=juan@makingdevs.com
-"""
-
-response = Traefik.Handler.handle(request)
-IO.puts(response)
-
-request = """
-GET /makingdevs HTTP/1.1
-Host: makingdevs.com
-User-Agent: MyBrowser/0.1
-Accept: */*
-
-"""
-
-response = Traefik.Handler.handle(request)
-IO.puts(response)
-
-request = """
-GET /makingdevs/3 HTTP/1.1
-Host: makingdevs.com
-User-Agent: MyBrowser/0.1
-Accept: */*
-
-"""
-
-response = Traefik.Handler.handle(request)
-IO.puts(response)
