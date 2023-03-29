@@ -24,15 +24,6 @@ defmodule Traefik.Developer do
     "<li>#{developer.id} #{developer.first_name} #{developer.last_name} #{developer.gender}<li>\n"
   end
 
-  def format_developer_header(%__MODULE__{} = developer) do
-    """
-    <h2>#{developer.id} #{developer.first_name}</h2>
-    <h3>#{developer.last_name}</h3>
-    <h3>#{developer.gender}</h3>
-    <h4>Extra salary: #{extra_salary(developer)}</h4>
-    """
-  end
-
   def extra_salary(%__MODULE__{gender: g}) when g != "Male" and g != "Female", do: true
   def extra_salary(_), do: false
 end

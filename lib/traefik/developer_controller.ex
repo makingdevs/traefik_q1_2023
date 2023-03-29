@@ -14,11 +14,9 @@ defmodule Traefik.DeveloperController do
   end
 
   def show(%Conn{} = conn, %{"id" => id} = _params) do
-    response =
-      Organization.get_developer(id)
-      |> Developer.format_developer_header()
+    developer = Organization.get_developer(id)
 
-    %Conn{conn | status: 200, response: response}
+    render(conn, "show.eex", developer: developer)
   end
 
   def create(%Conn{} = conn, params) do
