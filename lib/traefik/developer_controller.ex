@@ -19,11 +19,8 @@ defmodule Traefik.DeveloperController do
     render(conn, "show.eex", developer: developer)
   end
 
-  def create(%Conn{} = conn, params) do
-    response = """
-    Created dev:
-    #{params["name"]} - #{params["lastname"]} - #{params["email"]}
-    """
+  def create(%Conn{} = conn, %{"name" => name, "lastname" => lastname, "email" => email}) do
+    response = "Created dev: #{name} - #{lastname} - #{email}"
 
     %Conn{conn | status: 201, response: response}
   end
