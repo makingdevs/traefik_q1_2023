@@ -213,4 +213,19 @@ defmodule Traefik.HandlerTest do
 
            """
   end
+
+  test "GET /api/developers" do
+    request = """
+    GET /api/developers HTTP/1.1
+    Host: makingdevs.com
+    User-Agent: MyBrowser/0.1
+    Accept: */*
+    Content-Type: application/json
+
+    """
+
+    response = handle(request)
+
+    IO.inspect(response)
+  end
 end
