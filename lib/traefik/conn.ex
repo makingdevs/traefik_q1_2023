@@ -3,6 +3,7 @@ defmodule Traefik.Conn do
             path: "",
             status: nil,
             response: "",
+            content_type: "text/html",
             params: %{},
             headers: %{}
 
