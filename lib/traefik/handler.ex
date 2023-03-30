@@ -57,6 +57,10 @@ defmodule Traefik.Handler do
     Traefik.DeveloperController.create(conn, conn.params)
   end
 
+  def route(%Conn{method: "GET", path: "/api/developers"} = conn) do
+    Traefik.Api.DeveloperController.index(conn, conn.params)
+  end
+
   # def route(conn, "GET", "/about") do
   #   file_path =
   #     Path.expand("../../pages", __DIR__)
@@ -93,7 +97,7 @@ defmodule Traefik.Handler do
   def format_response(%Conn{} = conn) do
     """
     HTTP/1.1 #{Conn.full_status(conn)}
-    Content-Type: text/html
+    Content-Type: #{conn.content_type}
     Content-Lenght: #{String.length(conn.response)}
 
     #{conn.response}
