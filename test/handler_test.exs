@@ -226,6 +226,12 @@ defmodule Traefik.HandlerTest do
 
     response = handle(request)
 
-    IO.inspect(response)
+    assert response == """
+           HTTP/1.1 200 OK
+           Content-Type: application/json
+           Content-Lenght: 390
+
+           [{\"email\":\"jrubertis0@nytimes.com\",\"first_name\":\"Jerri\",\"gender\":\"Male\",\"id\":1,\"ip_address\":\"206.67.100.126\",\"last_name\":\"Rubertis\"},{\"email\":\"lgepson1@amazon.com\",\"first_name\":\"Lief\",\"gender\":\"Male\",\"id\":2,\"ip_address\":\"235.91.3.49\",\"last_name\":\"Gepson\"},{\"email\":\"vvanhalle2@quantcast.com\",\"first_name\":\"Viki\",\"gender\":\"Female\",\"id\":3,\"ip_address\":\"53.76.94.126\",\"last_name\":\"Van Halle\"}]
+           """
   end
 end
