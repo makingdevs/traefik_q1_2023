@@ -5,11 +5,11 @@ defmodule Traefik.HandlerTest do
 
   test "GET /developers" do
     request = """
-    GET /developers HTTP/1.1
-    Host: makingdevs.com
-    User-Agent: MyBrowser/0.1
-    Accept: */*
-
+    GET /developers HTTP/1.1\r
+    Host: makingdevs.com\r
+    User-Agent: MyBrowser/0.1\r
+    Accept: */*\r
+    \r
     """
 
     response = handle(request)
@@ -25,11 +25,11 @@ defmodule Traefik.HandlerTest do
 
   test "GET /projects" do
     request = """
-    GET /projects HTTP/1.1
-    Host: makingdevs.com
-    User-Agent: MyBrowser/0.1
-    Accept: */*
-
+    GET /projects HTTP/1.1\r
+    Host: makingdevs.com\r
+    User-Agent: MyBrowser/0.1\r
+    Accept: */*\r
+    \r
     """
 
     response = handle(request)
@@ -45,11 +45,11 @@ defmodule Traefik.HandlerTest do
 
   test "GET /developers/1" do
     request = """
-    GET /developers/1 HTTP/1.1
-    Host: makingdevs.com
-    User-Agent: MyBrowser/0.1
-    Accept: */*
-
+    GET /developers/1 HTTP/1.1\r
+    Host: makingdevs.com\r
+    User-Agent: MyBrowser/0.1\r
+    Accept: */*\r
+    \r
     """
 
     response = handle(request)
@@ -65,11 +65,11 @@ defmodule Traefik.HandlerTest do
 
   test "GET /bugme" do
     request = """
-    GET /bugme HTTP/1.1
-    Host: makingdevs.com
-    User-Agent: MyBrowser/0.1
-    Accept: */*
-
+    GET /bugme HTTP/1.1\r
+    Host: makingdevs.com\r
+    User-Agent: MyBrowser/0.1\r
+    Accept: */*\r
+    \r
     """
 
     response = Traefik.Handler.handle(request)
@@ -85,11 +85,11 @@ defmodule Traefik.HandlerTest do
 
   test "GET /internal-projects" do
     request = """
-    GET /internal-projects HTTP/1.1
-    Host: makingdevs.com
-    User-Agent: MyBrowser/0.1
-    Accept: */*
-
+    GET /internal-projects HTTP/1.1\r
+    Host: makingdevs.com\r
+    User-Agent: MyBrowser/0.1\r
+    Accept: */*\r
+    \r
     """
 
     response = Traefik.Handler.handle(request)
@@ -105,11 +105,11 @@ defmodule Traefik.HandlerTest do
 
   test "GET /about" do
     request = """
-    GET /about HTTP/1.1
-    Host: makingdevs.com
-    User-Agent: MyBrowser/0.1
-    Accept: */*
-
+    GET /about HTTP/1.1\r
+    Host: makingdevs.com\r
+    User-Agent: MyBrowser/0.1\r
+    Accept: */*\r
+    \r
     """
 
     response = Traefik.Handler.handle(request)
@@ -135,14 +135,14 @@ defmodule Traefik.HandlerTest do
 
   test "POST /developers" do
     request = """
-    POST /developers HTTP/1.1
-    Host: makingdevs.com
-    User-Agent: MyBrowser/0.1
-    Accept: */*
-    Content-Type: application/x-www-form-urlencoded
-    Content-Length: 44
-
-    name=Juan&lastname=Reyes&email=juan@makingdevs.com
+    POST /developers HTTP/1.1\r
+    Host: makingdevs.com\r
+    User-Agent: MyBrowser/0.1\r
+    Accept: */*\r
+    Content-Type: application/x-www-form-urlencoded\r
+    Content-Length: 44\r
+    \r
+    name=Juan&lastname=Reyes&email=juan@makingdevs.com\r
     """
 
     response = Traefik.Handler.handle(request)
@@ -158,11 +158,11 @@ defmodule Traefik.HandlerTest do
 
   test "GET /makingdevs" do
     request = """
-    GET /makingdevs HTTP/1.1
-    Host: makingdevs.com
-    User-Agent: MyBrowser/0.1
-    Accept: */*
-
+    GET /makingdevs HTTP/1.1\r
+    Host: makingdevs.com\r
+    User-Agent: MyBrowser/0.1\r
+    Accept: */*\r
+    \r
     """
 
     response = Traefik.Handler.handle(request)
@@ -191,11 +191,11 @@ defmodule Traefik.HandlerTest do
 
   test "GET /makingdevs/3" do
     request = """
-    GET /makingdevs/3 HTTP/1.1
-    Host: makingdevs.com
-    User-Agent: MyBrowser/0.1
-    Accept: */*
-
+    GET /makingdevs/3 HTTP/1.1\r
+    Host: makingdevs.com\r
+    User-Agent: MyBrowser/0.1\r
+    Accept: */*\r
+    \r
     """
 
     response = Traefik.Handler.handle(request)
@@ -216,12 +216,12 @@ defmodule Traefik.HandlerTest do
 
   test "GET /api/developers" do
     request = """
-    GET /api/developers HTTP/1.1
-    Host: makingdevs.com
-    User-Agent: MyBrowser/0.1
-    Accept: */*
-    Content-Type: application/json
-
+    GET /api/developers HTTP/1.1\r
+    Host: makingdevs.com\r
+    User-Agent: MyBrowser/0.1\r
+    Accept: */*\r
+    Content-Type: application/json\r
+    \r
     """
 
     response = handle(request)
