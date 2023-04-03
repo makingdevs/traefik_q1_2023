@@ -1,8 +1,8 @@
 defmodule Traefik.Parser do
   def parse(request) do
-    [top, params_string] = String.split(request, "\n\n")
+    [top, params_string] = String.split(request, "\r\n\r\n")
 
-    [request_line | headers_string] = String.split(top, "\n")
+    [request_line | headers_string] = String.split(top, "\r\n")
 
     [method, path, _] = String.split(request_line, " ")
 
