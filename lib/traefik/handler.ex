@@ -21,6 +21,16 @@ defmodule Traefik.Handler do
     |> format_response()
   end
 
+  def route(%Conn{method: "GET", path: "/crash"} = _conn) do
+    raise "Crash Traefik Server!!!"
+  end
+
+  def route(%Conn{method: "GET", path: "/sleep/" <> time} = conn) do
+    time |> String.to_integer() |> :timer.sleep()
+
+    %Conn{conn | status: 200, response: "Awake after #{time} ms."}
+  end
+
   def route(%Conn{method: "GET", path: "/secret-projects"} = conn) do
     %Conn{conn | status: 200, response: "Training for OTP, LiveView, Nx"}
   end
