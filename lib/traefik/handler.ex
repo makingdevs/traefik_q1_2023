@@ -26,29 +26,38 @@ defmodule Traefik.Handler do
     parent = self()
     spawn(fn -> send(parent, {:ok, Traefik.Fibonacci.sequence(42)}) end)
 
+    spawn(fn -> send(parent, {:ok, Traefik.Fibonacci.sequence(43)}) end)
+
+    spawn(fn -> send(parent, {:ok, Traefik.Fibonacci.sequence(44)}) end)
+
+    spawn(fn -> send(parent, {:ok, Traefik.Factorial.of_time(50)}) end)
+
     r1 =
       receive do
         {:ok, r} -> r
       end
-
-    spawn(fn -> send(parent, {:ok, Traefik.Fibonacci.sequence(43)}) end)
 
     r2 =
       receive do
         {:ok, r} -> r
       end
 
-    spawn(fn -> send(parent, {:ok, Traefik.Fibonacci.sequence(44)}) end)
-
     r3 =
       receive do
         {:ok, r} -> r
       end
 
+    r_fac =
+      receive do
+        {:ok, r} -> r
+      end
+
+    results = [r1, r2, r3]
+
     %Conn{
       conn
       | status: 200,
-        response: "Fibonacci of: 42 => #{inspect(r1)}, 43 => #{inspect(r2)}, 44 => #{inspect(r3)}"
+        response: "Fibonacci: #{inspect(results)}, Factorial: #{r_fac}"
     }
   end
 
