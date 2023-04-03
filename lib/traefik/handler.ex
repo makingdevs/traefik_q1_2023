@@ -21,6 +21,37 @@ defmodule Traefik.Handler do
     |> format_response()
   end
 
+  def route(%Conn{method: "GET", path: "/fibonacci"} = conn) do
+    IO.inspect(self(), label: "SELF")
+    parent = self()
+    spawn(fn -> send(parent, {:ok, Traefik.Fibonacci.sequence(42)}) end)
+
+    r1 =
+      receive do
+        {:ok, r} -> r
+      end
+
+    spawn(fn -> send(parent, {:ok, Traefik.Fibonacci.sequence(43)}) end)
+
+    r2 =
+      receive do
+        {:ok, r} -> r
+      end
+
+    spawn(fn -> send(parent, {:ok, Traefik.Fibonacci.sequence(44)}) end)
+
+    r3 =
+      receive do
+        {:ok, r} -> r
+      end
+
+    %Conn{
+      conn
+      | status: 200,
+        response: "Fibonacci of: 42 => #{inspect(r1)}, 43 => #{inspect(r2)}, 44 => #{inspect(r3)}"
+    }
+  end
+
   def route(%Conn{method: "GET", path: "/crash"} = _conn) do
     raise "Crash Traefik Server!!!"
   end
