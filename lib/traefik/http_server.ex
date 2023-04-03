@@ -16,6 +16,8 @@ defmodule Traefik.HttpServer do
   end
 
   def serve(client_socket) do
+    IO.inspect(self(), label: "SELF")
+
     client_socket
     |> read()
     # |> handle()
