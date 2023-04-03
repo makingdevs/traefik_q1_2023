@@ -4,4 +4,9 @@ defmodule Traefik.Factorial do
 
   def of_2(0, r), do: r
   def of_2(n, r), do: of_2(n - 1, r * n)
+
+  def of_time(n, time \\ 500) do
+    :timer.sleep(time)
+    of(n)
+  end
 end
