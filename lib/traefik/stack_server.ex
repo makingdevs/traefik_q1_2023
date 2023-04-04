@@ -1,16 +1,19 @@
 defmodule Traefik.StackServer do
+  @name :stack_server
   # Client API
   def start do
     IO.puts("🌤 Starts the Server")
-    spawn(__MODULE__, :loop, [[]])
+    pid = spawn(__MODULE__, :loop, [[]])
+    Process.register(pid, @name)
+    pid
   end
 
-  def put(pid, element) do
-    send(pid, {self(), :put, element})
+  def put(element) do
+    send(@name, {self(), :put, element})
   end
 
-  def get(pid) do
-    send(pid, {self(), :get})
+  def get() do
+    send(@name, {self(), :get})
 
     receive do
       {:result, stack} -> stack
