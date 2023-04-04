@@ -11,6 +11,10 @@ defmodule Traefik.StackServer do
 
   def get(pid) do
     send(pid, {self(), :get})
+
+    receive do
+      {:result, stack} -> stack
+    end
   end
 
   # Server API
