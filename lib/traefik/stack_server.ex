@@ -1,5 +1,9 @@
 defmodule Traefik.StackServer do
   def loop do
-    :ok
+    receive do
+      msg -> msg |> IO.inspect()
+    end
+
+    loop()
   end
 end
