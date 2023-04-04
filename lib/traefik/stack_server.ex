@@ -8,6 +8,11 @@ defmodule Traefik.StackServer do
         send(caller, {:result, state})
         loop(state)
 
+      {caller, :pop} ->
+        [pop | state] = state
+        send(caller, {:result, pop})
+        loop(state)
+
       unexpected ->
         IO.puts("Unexpected message: #{inspect(unexpected)}")
         loop(state)
