@@ -1,11 +1,11 @@
 defmodule Traefik.StackServer do
   def loop(state) do
     receive do
-      {:put, elem} ->
+      {_caller, :put, elem} ->
         loop([elem | state])
 
-      {:get} ->
-        IO.inspect(state)
+      {caller, :get} ->
+        send(caller, {:result, state})
         loop(state)
 
       unexpected ->
