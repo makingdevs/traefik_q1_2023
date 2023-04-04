@@ -41,3 +41,5 @@ defmodule Traefik.StackServer do
     end
   end
 end
+
+_pid = Traefik.StackServer.start()
