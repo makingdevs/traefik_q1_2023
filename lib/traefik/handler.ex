@@ -23,31 +23,15 @@ defmodule Traefik.Handler do
 
   def route(%Conn{method: "GET", path: "/fibonacci"} = conn) do
     IO.inspect(self(), label: "SELF")
-    parent = self()
-    pid_1 = spawn(fn -> send(parent, {:ok, self(), Traefik.Fibonacci.sequence(44)}) end)
-    pid_2 = spawn(fn -> send(parent, {:ok, self(), Traefik.Fibonacci.sequence(43)}) end)
-    pid_3 = spawn(fn -> send(parent, {:ok, self(), Traefik.Fibonacci.sequence(42)}) end)
-    pid_4 = spawn(fn -> send(parent, {:ok, self(), Traefik.Factorial.of_time(50)}) end)
+    pid_1 = Traefik.Jobs.async(fn -> Traefik.Fibonacci.sequence(44) end)
+    pid_2 = Traefik.Jobs.async(fn -> Traefik.Fibonacci.sequence(43) end)
+    pid_3 = Traefik.Jobs.async(fn -> Traefik.Fibonacci.sequence(42) end)
+    pid_4 = Traefik.Jobs.async(fn -> Traefik.Factorial.of_time(50) end)
 
-    r1 =
-      receive do
-        {:ok, ^pid_1, r} -> r
-      end
-
-    r2 =
-      receive do
-        {:ok, ^pid_2, r} -> r
-      end
-
-    r3 =
-      receive do
-        {:ok, ^pid_3, r} -> r
-      end
-
-    r_fac =
-      receive do
-        {:ok, ^pid_4, r} -> r
-      end
+    r1 = Traefik.Jobs.await(pid_1)
+    r2 = Traefik.Jobs.await(pid_2)
+    r3 = Traefik.Jobs.await(pid_3)
+    r_fac = Traefik.Jobs.await(pid_4)
 
     results = [r1, r2, r3]
 
