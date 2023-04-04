@@ -20,6 +20,14 @@ defmodule Traefik.Handler do
     |> format_response()
   end
 
+  def route(%Conn{method: "POST", path: "/stack"} = conn) do
+    Traefik.StackController.create(conn, conn.params)
+  end
+
+  def route(%Conn{method: "GET", path: "/stack"} = conn) do
+    Traefik.StackController.index(conn)
+  end
+
   def route(%Conn{method: "GET", path: "/fibonacci"} = conn) do
     pid_fac = Jobs.async(fn -> Factorial.of_time(100) end)
 
