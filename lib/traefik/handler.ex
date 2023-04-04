@@ -7,8 +7,7 @@ defmodule Traefik.Handler do
 
   import Traefik.Parser, only: [parse: 1]
   import Traefik.Plugs, only: [rewrite_path: 1, track: 1, log: 1]
-
-  alias Traefik.Conn
+  alias Traefik.{Conn, Factorial, Fibonacci, Jobs}
 
   @doc "Transforms the request into a response when it's used."
   def handle(request) do
@@ -22,18 +21,14 @@ defmodule Traefik.Handler do
   end
 
   def route(%Conn{method: "GET", path: "/fibonacci"} = conn) do
-    IO.inspect(self(), label: "SELF")
-    pid_1 = Traefik.Jobs.async(fn -> Traefik.Fibonacci.sequence(44) end)
-    pid_2 = Traefik.Jobs.async(fn -> Traefik.Fibonacci.sequence(43) end)
-    pid_3 = Traefik.Jobs.async(fn -> Traefik.Fibonacci.sequence(42) end)
-    pid_4 = Traefik.Jobs.async(fn -> Traefik.Factorial.of_time(50) end)
+    pid_fac = Jobs.async(fn -> Factorial.of_time(100) end)
 
-    r1 = Traefik.Jobs.await(pid_1)
-    r2 = Traefik.Jobs.await(pid_2)
-    r3 = Traefik.Jobs.await(pid_3)
-    r_fac = Traefik.Jobs.await(pid_4)
+    results =
+      [44, 43, 42]
+      |> Enum.map(&Jobs.async(fn -> Fibonacci.sequence(&1) end))
+      |> Enum.map(&Jobs.await/1)
 
-    results = [r1, r2, r3]
+    r_fac = Jobs.await(pid_fac)
 
     %Conn{
       conn
