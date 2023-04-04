@@ -1,7 +1,14 @@
 defmodule Traefik.StackServer do
   def loop do
     receive do
-      msg -> msg |> IO.inspect()
+      {:put, elem} ->
+        IO.inspect(elem)
+
+      {:get} ->
+        IO.inspect([])
+
+      unexpected ->
+        IO.puts("Unexpected message: #{inspect(unexpected)}")
     end
 
     loop()
