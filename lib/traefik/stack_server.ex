@@ -2,7 +2,7 @@ defmodule Traefik.StackServer do
   @name :stack_server
   # Client API
   def start do
-    IO.puts("🌤 Starts the Server")
+    IO.puts("🌤 Starts the Server: #{inspect(__MODULE__)}")
     pid = spawn(__MODULE__, :loop, [[]])
     Process.register(pid, @name)
     pid
