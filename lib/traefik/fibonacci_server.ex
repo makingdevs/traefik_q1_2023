@@ -28,6 +28,17 @@ defmodule Traefik.FibonacciServer do
     end
   end
 
+  def handle_call(_msg, sender, state) do
+    IO.inspect(binding())
+    # result = state |> Map.get(n)
+    {:reply, state, state}
+  end
+
+  def handle_cast(msg, state) do
+    IO.inspect(binding())
+    {:noreply, state}
+  end
+
   # Server API
   def loop(state) do
     receive do

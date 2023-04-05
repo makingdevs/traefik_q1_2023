@@ -9,12 +9,12 @@ defmodule Traefik.GenericServer do
   def loop(module, state) do
     receive do
       {caller, :call, msg} ->
-        IO.inspect(binding())
-        send(caller, {:result, msg})
+        {:reply, result, state} = module.handle_call(msg, caller, state)
+        send(caller, {:result, result})
         loop(module, state)
 
       {:cast, msg} ->
-        IO.inspect(binding())
+        {:noreply, state} = module.handle_cast(msg, state)
         loop(module, state)
     end
   end
