@@ -6,16 +6,28 @@ defmodule Traefik.GenericServer do
     pid
   end
 
+  def call(pid, message) do
+    send(pid, {self(), :call, message})
+
+    receive do
+      {:result, result} -> result
+    end
+  end
+
+  def cast(pid, message) do
+    send(pid, {:cast, message})
+  end
+
   def loop(module, state) do
     receive do
       {caller, :call, msg} ->
-        {:reply, result, state} = module.handle_call(msg, caller, state)
+        {:reply, result, new_state} = module.handle_call(msg, caller, state)
         send(caller, {:result, result})
-        loop(module, state)
+        loop(module, new_state)
 
       {:cast, msg} ->
-        {:noreply, state} = module.handle_cast(msg, state)
-        loop(module, state)
+        {:noreply, new_state} = module.handle_cast(msg, state)
+        loop(module, new_state)
     end
   end
 end
