@@ -1,45 +1,29 @@
 defmodule Traefik.StackServer do
-  @name :stack_server
-  # Client API
-  def start do
-    IO.puts("🌤 Starts the Server: #{inspect(__MODULE__)}")
-    pid = spawn(__MODULE__, :loop, [[]])
-    Process.register(pid, @name)
-    pid
+  def start(state \\ []) do
+    Traefik.GenericServer.start(__MODULE__, state, :fibonacci_generic_server)
   end
 
-  def put(element) do
-    send(@name, {self(), :put, element})
+  def put(pid, element) do
+    Traefik.GenericServer.cast(pid, {:put, element})
   end
 
-  def get() do
-    send(@name, {self(), :get})
-
-    receive do
-      {:result, stack} -> stack
-    end
+  def get(pid) do
+    Traefik.GenericServer.call(pid, {:get})
   end
 
-  # Server API
-  def loop(state) do
-    receive do
-      {_caller, :put, elem} ->
-        loop([elem | state])
+  def pop(pid) do
+    Traefik.GenericServer.call(pid, {:pop})
+  end
 
-      {caller, :get} ->
-        send(caller, {:result, state})
-        loop(state)
+  def handle_call({:get}, _sender, state) do
+    {:reply, state, state}
+  end
 
-      {caller, :pop} ->
-        [pop | state] = state
-        send(caller, {:result, pop})
-        loop(state)
+  def handle_call({:pop}, _sender, [h | state]) do
+    {:reply, h, state}
+  end
 
-      unexpected ->
-        IO.puts("Unexpected message: #{inspect(unexpected)}")
-        loop(state)
-    end
+  def handle_cast({:put, elem}, state) do
+    {:noreply, [elem | state]}
   end
 end
-
-_pid = Traefik.StackServer.start()
