@@ -1,67 +1,28 @@
 defmodule Traefik.FibonacciServer do
-  @name :fibonacci_server
-  # Client API
-  def start do
-    IO.puts("🌤 Starts the Server: #{inspect(__MODULE__)}")
-    pid = spawn(__MODULE__, :loop, [%{}])
-    Process.register(pid, @name)
-    pid
-  end
-
   def compute(n) do
-    send(@name, {self(), :compute, n})
+    n
   end
 
   def get(n) do
-    send(@name, {self(), :get, n})
-
-    receive do
-      {:result, stack} -> stack
-    end
+    n
   end
 
   def sequence do
-    send(@name, {self(), :all})
-
-    receive do
-      {:result, stack} -> stack
-    end
+    []
   end
 
-  def handle_call(_msg, sender, state) do
-    IO.inspect(binding())
-    # result = state |> Map.get(n)
+  def handle_call({:get, n}, _sender, state) do
+    result = state |> Map.get(n)
+    {:reply, result, state}
+  end
+
+  def handle_call({:all}, _sender, state) do
     {:reply, state, state}
   end
 
-  def handle_cast(msg, state) do
-    IO.inspect(binding())
+  def handle_cast({:compute, n}, state) do
+    result = Traefik.Fibonacci.sequence(n)
+    state = state |> Map.put_new(n, result)
     {:noreply, state}
   end
-
-  # Server API
-  def loop(state) do
-    receive do
-      {_caller, :compute, n} ->
-        result = Traefik.Fibonacci.sequence(n)
-        state = state |> Map.put_new(n, result)
-
-        loop(state)
-
-      {caller, :get, n} ->
-        result = state |> Map.get(n)
-        send(caller, {:result, result})
-        loop(state)
-
-      {caller, :all} ->
-        send(caller, {:result, state})
-        loop(state)
-
-      unexpected ->
-        IO.puts("Unexpected message: #{inspect(unexpected)}")
-        loop(state)
-    end
-  end
 end
-
-_pid = Traefik.FibonacciServer.start()
