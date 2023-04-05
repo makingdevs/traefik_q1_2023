@@ -1,17 +1,18 @@
 defmodule Traefik.StackServer do
+  @name :stack_server
   def start(state \\ []) do
-    Traefik.GenericServer.start(__MODULE__, state, :fibonacci_generic_server)
+    Traefik.GenericServer.start(__MODULE__, state, @name)
   end
 
-  def put(pid, element) do
+  def put(element, pid \\ @name) do
     Traefik.GenericServer.cast(pid, {:put, element})
   end
 
-  def get(pid) do
+  def get(pid \\ @name) do
     Traefik.GenericServer.call(pid, {:get})
   end
 
-  def pop(pid) do
+  def pop(pid \\ @name) do
     Traefik.GenericServer.call(pid, {:pop})
   end
 
